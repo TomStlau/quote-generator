@@ -3,6 +3,7 @@ const quoteElement = document.querySelector('#quote')
 const authorElement = document.querySelector('#author')
 const loader = document.querySelector('.loader')
 const quoteContainer = document.querySelector('#quote-container')
+const twitterButton = document.querySelector('#twitter')
 let quotes = []
 
 async function fetchQuotes () {
@@ -35,12 +36,6 @@ function authorNotAnonymous (author) {
   return author !== 'Anonymous'
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-  await fetchQuotes()
-  const quote = await getRandomQuote()
-  printQuote(quote)
-})
-
 async function getRandomQuote () {
   const randomIndex = Math.floor(Math.random() * quotes.length)
   return quotes[randomIndex]
@@ -60,6 +55,19 @@ function printQuote (quote) {
 const newQuoteButton = document.querySelector('#new-quote')
 newQuoteButton.addEventListener('click', async () => {
   loading()
+  const quote = await getRandomQuote()
+  printQuote(quote)
+})
+
+function twitterQuote () {
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteElement.textContent} - ${authorElement.textContent}`
+  window.open(twitterUrl, '_blank')
+}
+
+twitterButton.addEventListener('click', twitterQuote)
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await fetchQuotes()
   const quote = await getRandomQuote()
   printQuote(quote)
 })
